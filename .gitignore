@@ -1,0 +1,22 @@
+# Env
+bin/
+include/
+lib/
+lib64
+share/
+*.env
+*.pyc
+pyvenv.cfg
+*.git
+
+# Housekeeping
+*.old
+.*.sw*
+
+static/
+
+# Migrations
+migrations/
+
+.vscode
+.DS_Store
