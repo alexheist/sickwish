@@ -19,7 +19,7 @@ DJANGO_APPS = (
     "django.contrib.sitemaps",
 )
 
-THIRD_PARTY_APPS = ()
+THIRD_PARTY_APPS = ("sass_processor",)
 
 LOCAL_APPS = ("main",)
 

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sass_tags %}
+
+{% block page-title %}
+Sick Wish
+{% endblock page-title %}
+
+{% block page-description %}
+Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to Spill bassist Brett Nelson, his son Jonah Nelson, and local musicians Edward Dunn and Craig Macomb.
+{% endblock page-description %}
+
+{% block page-styles %}
+<link rel="stylesheet" href="{% sass_src 'css/main.scss' %}" type="text/css">
+{% endblock page-styles %}
+
+{% block content %}
+<section class="heading">
+    <h1 class="heading__title">Sick Wish</h1>
+    {% include "partials/nav_index.html" %}
+</section>
+
+<section class="news-preview">
+    <h3 class="news-preview__header">News</h3>
+    <a href="/news" class="news-preview__cta">
+        View All
+        <svg class="chevron chevron--right" viewBox="0 0 4 4" version="1.1" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 0,0 L 4,0 L 4,4" fill="none" stroke="#fe8b8b" strokeWidth="10" />
+        </svg>
+    </a>
+</section>
+
+<section class="tour">
+        <h3 class="tour__header">Tour</h3>
+</section>
+
+<section id="contact" class="contact">
+    <h3 class="contact__title">Contact Us</h3>
+    <form class="contact__form" method="post">
+        <div id="name" class="form__field">
+            <label id="name-label" for="name">Name</label>
+            <input type="text" name="name" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
+        </div>
+        <div id="email" class="form__field">
+            <label id="email-label" for="email">Email</label>
+            <input type="email" name="email" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
+        </div>
+        <div id="message" class="form__field form__field--textarea">
+            <label id="message-label" for="message">Message</label>
+            <textarea name="message" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);"></textarea>
+        </div>
+        {% csrf_token %}
+        <span class="response"></span>
+        <input class="btn" type="submit" value="Submit" />
+    </form>
+</section>
+{% endblock content %}
+
+{% block page-scripts %}
+<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
+<script src="{% static 'js/formfields.js' %}"></script>
+<script>
+function populateResponse(success, message) {
+    textWrapper = $('.response')[0]
+    textWrapper.setAttribute("class", "response");
+    textWrapper.innerText = message;
+    if (!success) {
+        textWrapper.classList.add("response--error");
+    }
+}
+
+function clearForm() {
+    $(".contact__form")[0].reset()
+    $("#name")[0].classList.remove("form__field--active");
+    $("#email")[0].classList.remove("form__field--active");
+    $("#message")[0].classList.remove("form__field--active");
+}
+
+$(".contact__form").on("submit", function(event) {
+  event.preventDefault();
+  $.ajax({
+    type: "POST",
+    url: "{{ request.path }}",
+    data: values,
+    success: function(response) {
+        populateResponse(true, "Thank you");
+        clearForm();
+    },
+    error: function(response) {
+        populateResponse(false, "An error occurred");
+    }
+  });
+});
+</script>
+{% endblock page-scripts %}
