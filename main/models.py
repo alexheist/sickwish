@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import truncatewords
 from django.utils import timezone
 
 from . import choices
@@ -84,6 +85,10 @@ class News(models.Model):
 
     class Meta:
         verbose_name_plural = "News Posts"
+
+    @property
+    def preview(self):
+        return truncatewords(self.content, 50)[:-1]
 
 
 class Press(models.Model):
