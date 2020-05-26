@@ -42,8 +42,15 @@ Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to 
 <section class="tour">
     <h3 class="tour__header">Tour</h3>
     {% for event in events %}
-        <p>{{ event.venue }}</p>
+        <div class="tour__event">
+            <h5 class="tour__location">{{ event.location }}</h5>
+            <p class="tour__date">{{ event.date }}</p>
+            <p class="tour__venue">@ {{ event.venue }}</p>
+            <p class="tour__details">{{ event.time }} | {{ event.cover|default_if_none:"Free" }}</p>
+            <p class="tour__restrictions">{{ event.get_age_restrictions_display }}</p>
+        </div>
     {% endfor %}
+    <a href="/tour" class="tour__cta">View All</a>
 </section>
 
 <section id="contact" class="contact">

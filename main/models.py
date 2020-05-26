@@ -48,6 +48,10 @@ class Event(models.Model):
         max_length=2, choices=choices.RESTRICTIONS, default="AA"
     )
 
+    @property
+    def location(self):
+        return f"{self.city}, {self.state}"
+
 
 class Inquiry(models.Model):
     name = models.CharField(max_length=255)
