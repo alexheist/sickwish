@@ -86,8 +86,11 @@ LANGUAGE_CODE = "en-us"
 
 TIME_ZONE = "America/Boise"
 
+DATE_FORMAT = "m.d.y"
+TIME_FORMAT = "g:i a"
+
 USE_I18N = True
-USE_L10N = True
+USE_L10N = False
 USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)

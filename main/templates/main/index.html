@@ -28,7 +28,7 @@ Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to 
             <h4 class="news-preview__title">{{ post.title }}</h4>
             <p class="news-preview__date">{{ post.published }}</p>
             <p class="news-preview__content">{{ post.preview }} . . .</p>
-            <a href="#" class="news-preview__link bordered">
+            <a href="/news/{{ post.slug }}" class="news-preview__link bordered">
                 Read More
                 <svg class="chevron chevron--right" viewBox="0 0 4 4" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <path d="M 0,0 L 4,0 L 4,4" fill="none" stroke="#fff" strokeWidth="10" />
@@ -45,9 +45,9 @@ Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to 
         <div class="tour__event">
             <h5 class="tour__location">{{ event.location }}</h5>
             <p class="tour__date">{{ event.date }}</p>
-            <p class="tour__venue">@ {{ event.venue }}</p>
-            <p class="tour__details">{{ event.time }} | {{ event.cover|default_if_none:"Free" }}</p>
-            <p class="tour__restrictions">{{ event.get_age_restrictions_display }}</p>
+            <p class="tour__venue"><span class="grey">@</span> {{ event.venue }}</p>
+            <p class="tour__details grey">{{ event.time }} | {% if event.cover %} ${{ event.cover }} {% else %} Free {% endif %}</p>
+            <p class="tour__restrictions grey">{{ event.get_age_restrictions_display }}</p>
         </div>
     {% endfor %}
     <a href="/tour" class="tour__cta">View All</a>

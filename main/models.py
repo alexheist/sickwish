@@ -43,7 +43,7 @@ class Event(models.Model):
     venue = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
     state = models.CharField(max_length=2, choices=choices.STATES, default="ID")
-    cover = models.DecimalField(decimal_places=2, max_digits=8, null=True, blank=True)
+    cover = models.PositiveIntegerField(null=True, blank=True)
     age_restrictions = models.CharField(
         max_length=2, choices=choices.RESTRICTIONS, default="AA"
     )
