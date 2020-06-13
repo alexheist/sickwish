@@ -53,24 +53,30 @@ Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to 
     <a href="/tour" class="tour__cta">View All</a>
 </section>
 
-<section id="contact" class="contact">
+<section id="contact" class="contact bordered">
     <h3 class="contact__title">Contact Us</h3>
     <form class="contact__form" method="post">
         <div id="name" class="form__field">
-            <label id="name-label" for="name">Name</label>
-            <input type="text" name="name" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
+            <span class="form__field_innerwrapper">
+                <label id="name-label" for="name">Name</label>
+                <input type="text" name="name" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
+            </span>
         </div>
         <div id="email" class="form__field">
-            <label id="email-label" for="email">Email</label>
-            <input type="email" name="email" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
+            <span class="form__field_innerwrapper">
+                <label id="email-label" for="email">Email</label>
+                <input type="email" name="email" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
+            </span>
         </div>
         <div id="message" class="form__field form__field--textarea">
-            <label id="message-label" for="message">Message</label>
-            <textarea name="message" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);"></textarea>
+            <span class="form__field_innerwrapper">
+                <label id="message-label" for="message">Message</label>
+                <textarea name="message" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);"></textarea>
+            </span>
         </div>
         {% csrf_token %}
-        <span class="response"></span>
         <input class="btn" type="submit" value="Submit" />
+        <span class="response"></span>
     </form>
 </section>
 {% endblock content %}
