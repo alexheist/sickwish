@@ -29,6 +29,12 @@
 			</script>
 		{% endif %}
 
+		<style>
+			body {
+				{% block page-grid %}
+				{% endblock page-grid %}
+			}
+		</style>
 		{% block page-styles %}
 		{% endblock page-styles %}
 	</head>

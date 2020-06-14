@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load sass_tags %}
+
+{% block page-title %}
+{{ article.title }} // Sick Wish
+{% endblock page-title %}
+
+{% block page-description %}
+Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to Spill bassist Brett Nelson, his son Jonah Nelson, and local musicians Edward Dunn and Craig Macomb.
+{% endblock page-description %}
+
+{% block page-grid %}
+grid-template-columns: 100%;
+{% endblock page-grid %}
+
+{% block page-styles %}
+<link rel="stylesheet" href="{% sass_src 'css/main.scss' %}" type="text/css">
+{% endblock page-styles %}
+
+{% block content %}
+<section class="heading">
+    <h1 class="heading__title heading__title--child">News</h1>
+    {% include "partials/nav.html" %}
+</section>
+
+<section class="news-article">
+    <h4 class="news-article__title">{{ article.title }}</h4>
+    <p class="news-article__date">{{ article.published }}</p>
+    <p class="news-article__content">{{ article.content }}</p>
+</section>
+{% endblock content %}
+
+{% block page-scripts %}
+{% endblock page-scripts %}
