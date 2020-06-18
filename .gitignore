@@ -21,3 +21,5 @@ migrations/
 
 .vscode
 .DS_Store
+
+media/

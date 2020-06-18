@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load sass_tags %}
+{% load thumbnail %}
 
 {% block page-title %}
 Media // Sick Wish
@@ -16,105 +17,109 @@ Sick Wish is a New(er) Wave band formed in Boise, ID in 2014 by former Built to 
 
 {% block content %}
 <section class="heading">
-    <img class="heading__image" src={% static "img/hero.png" %} alt="Sick Wish promotional photo" />
-    <h1 class="heading__title">SICK WISH</h1>
-    {% include "partials/nav_index.html" %}
+    <h1 class="heading__title heading__title--child">Media</h1>
+    {% include "partials/nav.html" %}
 </section>
 
-<section class="news-preview">
-    <h3 class="news-preview__header">News</h3>
-    {% for post in news %}
-        <div class="news-preview__post">
-            <h4 class="news-preview__title">{{ post.title }}</h4>
-            <p class="news-preview__date">{{ post.published }}</p>
-            <p class="news-preview__content">{{ post.preview }} . . .</p>
-            <a href="/news/{{ post.slug }}" class="news-preview__link bordered">
-                Read More
-                <svg class="chevron chevron--right" viewBox="0 0 4 4" version="1.1" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M 0,0 L 4,0 L 4,4" fill="none" stroke="#fff" strokeWidth="10" />
-                </svg>
-            </a>
-        </div>
-    {% endfor %}
-    <a href="/news" class="news-preview__cta">View All</a>
-</section>
-
-<section class="tour">
-    <h3 class="tour__header">Tour</h3>
-    {% for event in events %}
-        <div class="tour__event">
-            <h5 class="tour__location">{{ event.location }}</h5>
-            <p class="tour__date">{{ event.date }}</p>
-            <p class="tour__venue"><span class="grey">@</span> {{ event.venue }}</p>
-            <p class="tour__details grey">{{ event.time }} | {% if event.cover %} ${{ event.cover }} {% else %} Free {% endif %}</p>
-            <p class="tour__restrictions grey">{{ event.get_age_restrictions_display }}</p>
-        </div>
-    {% endfor %}
-    <a href="/tour" class="tour__cta">View All</a>
-</section>
-
-<section id="contact" class="contact bordered">
-    <h3 class="contact__title">Contact Us</h3>
-    <form class="contact__form" method="post">
-        <div id="name" class="form__field">
-            <span class="form__field_innerwrapper">
-                <label id="name-label" for="name">Name</label>
-                <input type="text" name="name" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
-            </span>
-        </div>
-        <div id="email" class="form__field">
-            <span class="form__field_innerwrapper">
-                <label id="email-label" for="email">Email</label>
-                <input type="email" name="email" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);" />
-            </span>
-        </div>
-        <div id="message" class="form__field form__field--textarea">
-            <span class="form__field_innerwrapper">
-                <label id="message-label" for="message">Message</label>
-                <textarea name="message" onfocus="handleFocus(this.name);" onblur="handleBlur(this.name);" onchange="handleChange(this);"></textarea>
-            </span>
-        </div>
-        {% csrf_token %}
-        <input class="btn" type="submit" value="Submit" />
-        <span class="response"></span>
-    </form>
+<section class="gallery">
+    <div class="gallery__active-container">
+        <p class="gallery__chevron" onClick="previousPhoto()">&#8249;</p>
+        <img class="gallery__photo--active" src="/media/{{ media.0.image }}" alt="{{ media.0.description }}" onClick="nextPhoto()" />
+        <p class="gallery__chevron" onClick="nextPhoto()">&#8250;</p>
+    </div>
+    <div class="gallery__preview">
+        {% for image in media %}
+            <img
+                id="{{ image.id }}"
+                class="gallery__photo {% if forloop.first %}gallery__photo--highlight{% endif %}"
+                src="{{ image.image|thumbnail_url:'preview' }}"
+                alt="{{ image.description }}"
+                onClick="changeActivePhoto(this);"
+            />
+        {% endfor %}
+    </div>
 </section>
 {% endblock content %}
 
 {% block page-scripts %}
-<script src="{% static 'js/jquery-3.4.1.min.js' %}"></script>
-<script src="{% static 'js/formfields.js' %}"></script>
 <script>
-function populateResponse(success, message) {
-    textWrapper = $('.response')[0]
-    textWrapper.setAttribute("class", "response");
-    textWrapper.innerText = message;
-    if (!success) {
-        textWrapper.classList.add("response--error");
-    }
-}
+    document.onkeydown = checkKey;
 
-function clearForm() {
-    $(".contact__form")[0].reset()
-    $("#name")[0].classList.remove("form__field--active");
-    $("#email")[0].classList.remove("form__field--active");
-    $("#message")[0].classList.remove("form__field--active");
-}
+    var photoCount = document.getElementsByClassName("gallery__photo").length;
+    var activePhoto = document.getElementsByClassName("gallery__photo--active")[0];
+    var activePhotoId = 1;
 
-$(".contact__form").on("submit", function(event) {
-  event.preventDefault();
-  $.ajax({
-    type: "POST",
-    url: "{{ request.path }}",
-    data: values,
-    success: function(response) {
-        populateResponse(true, "Thank you");
-        clearForm();
-    },
-    error: function(response) {
-        populateResponse(false, "An error occurred");
+    function changeActivePhoto(element){
+        let oldPhoto = document.getElementById(activePhotoId)
+
+        oldPhoto.classList.remove("gallery__photo--highlight");
+        element.classList.add("gallery__photo--highlight");
+
+        activePhoto.src = getFullPhoto(element.src);
+        activePhoto.alt = element.alt;
+        activePhotoId = parseInt(element.id);
     }
-  });
-});
+
+    function nextPhoto() {
+        if (activePhotoId < photoCount) {
+            let newPhoto = document.getElementById(activePhotoId + 1)
+            let oldPhoto = document.getElementById(activePhotoId)
+
+            newPhoto.classList.add("gallery__photo--highlight");
+            oldPhoto.classList.remove("gallery__photo--highlight");
+
+            activePhoto.src = getFullPhoto(newPhoto.src);
+            activePhoto.alt = newPhoto.alt;
+            activePhotoId = parseInt(newPhoto.id);
+        } else {
+            let newPhoto = document.getElementById(1)
+            let oldPhoto = document.getElementById(activePhotoId)
+
+            newPhoto.classList.add("gallery__photo--highlight");
+            oldPhoto.classList.remove("gallery__photo--highlight");
+
+            activePhoto.src = getFullPhoto(newPhoto.src);
+            activePhoto.alt = newPhoto.alt;
+            activePhotoId = parseInt(newPhoto.id);
+        }
+    }
+
+    function previousPhoto() {
+        if (activePhotoId > 1) {
+            let newPhoto = document.getElementById(activePhotoId - 1)
+            let oldPhoto = document.getElementById(activePhotoId)
+
+            newPhoto.classList.add("gallery__photo--highlight");
+            oldPhoto.classList.remove("gallery__photo--highlight");
+
+            activePhoto.src = getFullPhoto(newPhoto.src);
+            activePhoto.alt = newPhoto.alt;
+            activePhotoId = parseInt(newPhoto.id);
+        } else {
+            let newPhoto = document.getElementById(photoCount)
+            let oldPhoto = document.getElementById(activePhotoId)
+
+            newPhoto.classList.add("gallery__photo--highlight");
+            oldPhoto.classList.remove("gallery__photo--highlight");
+
+            activePhoto.src = getFullPhoto(newPhoto.src);
+            activePhoto.alt = newPhoto.alt;
+            activePhotoId = parseInt(newPhoto.id);
+        }
+    }
+
+    function getFullPhoto(src) {
+        return src.substr(0, src.indexOf(".25x25"));
+    }
+
+    function checkKey(e) {
+        var event = window.event ? window.event : e;
+        if (event.keyCode == 39) {
+            nextPhoto();
+        } else if (event.keyCode == 37) {
+            previousPhoto();
+        }
+    }
+
 </script>
 {% endblock page-scripts %}

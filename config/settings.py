@@ -19,7 +19,7 @@ DJANGO_APPS = (
     "django.contrib.sitemaps",
 )
 
-THIRD_PARTY_APPS = ("sass_processor",)
+THIRD_PARTY_APPS = ("sass_processor", "easy_thumbnails")
 
 LOCAL_APPS = ("main",)
 
@@ -105,3 +105,9 @@ STATICFILES_FINDERS = (
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
+
+# Thumbnails
+# https://github.com/SmileyChris/easy-thumbnails
+THUMBNAIL_ALIASES = {
+    "": {"preview": {"size": (25, 25), "crop": True},},
+}

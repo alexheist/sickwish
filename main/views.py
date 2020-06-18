@@ -44,7 +44,8 @@ def music(request):
 
 
 def media(request):
-    return render(request, "main/media.html", {})
+    media = models.Media.objects.all()
+    return render(request, "main/media.html", {"media": media})
 
 
 def about(request):
