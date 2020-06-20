@@ -13,6 +13,17 @@ class AboutImage(models.Model):
     class Meta:
         verbose_name_plural = "About Page Images"
 
+    def save(self, *args, **kwargs):
+        if self.in_use:
+            try:
+                temp = AboutImage.objects.get(in_use=True)
+                if self != temp:
+                    temp.in_use = False
+                    temp.save()
+            except AboutImage.DoesNotExist:
+                pass
+        super().save(*args, **kwargs)
+
 
 class AboutText(models.Model):
     content = models.TextField()
@@ -20,6 +31,21 @@ class AboutText(models.Model):
 
     class Meta:
         verbose_name_plural = "About Page Text"
+
+    def save(self, *args, **kwargs):
+        if self.in_use:
+            try:
+                temp = AboutText.objects.get(in_use=True)
+                if self != temp:
+                    temp.in_use = False
+                    temp.save()
+            except AboutText.DoesNotExist:
+                pass
+        super().save(*args, **kwargs)
+
+    @property
+    def content_preview(self):
+        return f"{self.content[:150]} . . ."
 
 
 class AboutVideo(models.Model):
@@ -30,11 +56,33 @@ class AboutVideo(models.Model):
     class Meta:
         verbose_name_plural = "About Page Videos"
 
+    def save(self, *args, **kwargs):
+        if self.in_use:
+            try:
+                temp = AboutVideo.objects.get(in_use=True)
+                if self != temp:
+                    temp.in_use = False
+                    temp.save()
+            except AboutVideo.DoesNotExist:
+                pass
+        super().save(*args, **kwargs)
+
 
 class Banner(models.Model):
     text = models.CharField(max_length=255)
     link = models.CharField(max_length=255)
     in_use = models.BooleanField(default=False)
+
+    def save(self, *args, **kwargs):
+        if self.in_use:
+            try:
+                temp = Banner.objects.get(in_use=True)
+                if self != temp:
+                    temp.in_use = False
+                    temp.save()
+            except Banner.DoesNotExist:
+                pass
+        super().save(*args, **kwargs)
 
 
 class Event(models.Model):

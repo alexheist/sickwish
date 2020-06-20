@@ -10,7 +10,7 @@ class AboutImageAdmin(admin.ModelAdmin):
 
 @admin.register(models.AboutText)
 class AboutTextAdmin(admin.ModelAdmin):
-    list_display = ("content", "in_use")
+    list_display = ("content_preview", "in_use")
 
 
 @admin.register(models.AboutVideo)

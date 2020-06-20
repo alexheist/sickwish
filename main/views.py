@@ -5,6 +5,13 @@ from django.utils import timezone
 from . import models
 
 
+def get_or_none(model, *args, **kwargs):
+    try:
+        return model.objects.get(*args, **kwargs)
+    except model.DoesNotExist:
+        return None
+
+
 def index(request):
     current_date = timezone.localtime().date()
     news = models.News.objects.filter(published__lte=current_date).order_by(
@@ -49,4 +56,9 @@ def media(request):
 
 
 def about(request):
-    return render(request, "main/about.html", {})
+    image = get_or_none(models.AboutImage, in_use=True)
+    text = get_or_none(models.AboutText, in_use=True)
+    video = get_or_none(models.AboutVideo, in_use=True)
+    return render(
+        request, "main/about.html", {"image": image, "text": text, "video": video}
+    )

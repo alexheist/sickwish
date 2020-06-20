@@ -456,6 +456,22 @@
   }
 }
 
+.about {
+  padding: 0 20px;
+
+  &__img {
+    object-fit: contain;
+    width: 100%;
+  }
+
+  &__video {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0;
+    min-height: 200px;
+  }
+}
+
 .bordered {
   position: relative;
 
