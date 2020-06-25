@@ -6,8 +6,8 @@ services:
   web:
     image: sickwish-backend:1.0.0
     build: .
-    command: gunicorn config.wsgi:application -b 0.0.0.0:8000
-    #command: ./manage.py runserver 0.0.0.0:8000
+    #command: gunicorn config.wsgi:application -b 0.0.0.0:8000
+    command: ./manage.py runserver 0.0.0.0:8000
     tty: true
     volumes:
       - .:/usr/src/
