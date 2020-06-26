@@ -49,7 +49,6 @@
     margin: 25px auto 0;
     border-bottom: none;
     padding-bottom: 0;
-
   }
 }
 
@@ -274,6 +273,7 @@
         width: 20px;
         height: 20px;
         position: absolute;
+        z-index: -2;
       }
 
       &::before {
@@ -283,7 +283,6 @@
         border-left: 1px solid white;
         transition: 0.5s all;
       }
-
 
       input[type="text"],
       input[type="email"],
@@ -314,6 +313,7 @@
           width: 20px;
           height: 20px;
           position: absolute;
+          z-index: -2;
         }
 
         &::after {
@@ -343,7 +343,6 @@
         transform: translate(5px, -20px) scale(0.75);
       }
 
-
       &--active::before,
       &--active::after,
       &--active .form__field_innerwrapper::before,
@@ -351,7 +350,6 @@
         width: 100%;
         height: 100%;
       }
-
 
       .error {
         color: #ff001f;
@@ -370,12 +368,17 @@
       outline: none;
       font-family: "Raleway", sans-serif;
       border: none;
+      z-index: 2;
       border-bottom: 1px solid #fff;
     }
 
-    // .response {
-    //   &--error {}
-    // }
+    .response {
+      color: #00a3ff;
+
+      &--error {
+        color: #ff001f;
+      }
+    }
   }
 }
 
@@ -427,7 +430,7 @@
   &__photo {
     height: 20px;
     width: 20px;
-    opacity: .4;
+    opacity: 0.4;
     margin: 0 2px;
     cursor: pointer;
     object-fit: cover;
@@ -524,6 +527,10 @@
       letter-spacing: 25px;
       font-weight: 600;
       margin-top: 60vh;
+
+      &--child {
+        margin-top: 100px;
+      }
     }
   }
 
@@ -620,12 +627,43 @@
       }
 
       input[type="submit"] {
-        grid-column: 1/3;
-        justify-self: center;
+        grid-column: 2/3;
+        justify-self: end;
         align-self: end;
-        margin-right: 0;
+        margin-right: 20%;
         font-size: 1em;
       }
+
+      .response {
+        grid-column: 1/2;
+        grid-row: 3/4;
+        justify-self: end;
+        align-self: end;
+      }
     }
+  }
+
+  .music {
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &__embed {
+      margin: 20px 10px;
+    }
+  }
+
+  .news-article {
+    &__date {
+      font-size: 1em;
+    }
+
+    &__content {
+      font-size: 1em;
+      line-height: 25px;
+    }
+  }
+
+  .gallery {
+    grid-template-rows: 50vh 5vh;
   }
 }

@@ -2,7 +2,7 @@ from django import http
 from django.shortcuts import render
 from django.utils import timezone
 
-from . import models
+from . import models, forms
 
 
 def get_or_none(model, *args, **kwargs):
@@ -19,7 +19,8 @@ def index(request):
     )[:3]
     events = models.Event.objects.all().order_by("-date")[:3]
     if request.is_ajax():
-        form = forms.LeadForm(request.POST)
+        print("Request == Ajax")
+        form = forms.InquiryForm(request.POST)
         if form.is_valid():
             form.save()
             return http.HttpResponse(status=200)
