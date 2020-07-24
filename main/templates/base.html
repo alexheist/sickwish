@@ -2,46 +2,55 @@
 {% load sass_tags %}
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		<meta name="description" content="{% block page-description %}{% endblock page-description %}">
-		{% block metadata %}
-		{% endblock metadata %}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta name="description" content="{% block page-description %}{% endblock page-description %}">
+        {% block metadata %}
+        {% endblock metadata %}
 
-		<title>{% block page-title %}{% endblock page-title %}</title>
+        <title>{% block page-title %}{% endblock page-title %}</title>
 
-		<link rel="canonical" href="https://{{ request.get_host }}{{ request.get_full_path }}" />
-		<link rel="stylesheet" href="{% sass_src 'css/base.scss' %}" type="text/css" />
-		<link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
+        <link rel="canonical" href="https://{{ request.get_host }}{{ request.get_full_path }}" />
+        <link rel="stylesheet" href="{% sass_src 'css/base.scss' %}" type="text/css" />
+        <link rel="shortcut icon" type="image/png" href="{% static 'favicon.ico' %}"/>
 
-		{% if request.get_host == 'sickwish.com' %}
-			<!-- Global site tag (gtag.js) - Google Analytics -->
-			<script async src="https://www.googletagmanager.com/gtag/js?id=-159867696-1"></script>
-			<script>
-				window.dataLayer = window.dataLayer || [];
-				function gtag(){dataLayer.push(arguments);}
-				gtag('js', new Date());
+        {% if request.get_host == 'sickwish.com' %}
+            <!-- Global site tag (gtag.js) - Google Analytics -->
+            <script async src="https://www.googletagmanager.com/gtag/js?id=-159867696-1"></script>
+            <script>
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);}
+                gtag('js', new Date());
 
-				gtag('config', 'UA-159867696-1');
-			</script>
-		{% endif %}
+                gtag('config', 'UA-159867696-1');
+            </script>
+        {% endif %}
 
-		<style>
-			body {
-				{% block page-grid %}
-				{% endblock page-grid %}
-			}
-		</style>
-		{% block page-styles %}
-		{% endblock page-styles %}
-	</head>
-	<body>
-		{% block content %}
-		{% endblock content %}
-	</body>
-	{% block page-scripts %}
-	{% endblock page-scripts %}
+        <style>
+            .page-wrapper {
+                {% block page-grid %}
+                {% endblock page-grid %}
+            }
+        </style>
+        {% block page-styles %}
+        {% endblock page-styles %}
+    </head>
+    <body>
+        {% if banner %}
+            <div class="banner">
+                <a class="banner__link" href="{{ banner.link }}">{{ banner.text }} &#8594;</a>
+                <span class="banner__underline banner__underline--blue"></span>
+                <span class="banner__underline banner__underline--red"></span>
+            </div>
+        {% endif %}
+        <div class="page-wrapper">
+            {% block content %}
+            {% endblock content %}
+        </div>
+    </body>
+    {% block page-scripts %}
+    {% endblock page-scripts %}
 </html>
