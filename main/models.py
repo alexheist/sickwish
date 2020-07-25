@@ -135,7 +135,7 @@ class Music(models.Model):
 
 
 class News(models.Model):
-    image = models.ImageField()
+    image = models.ImageField(null=True)
     title = models.CharField(max_length=255)
     content = RichTextUploadingField()
     published = models.DateField()
