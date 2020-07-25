@@ -19,7 +19,12 @@ DJANGO_APPS = (
     "django.contrib.sitemaps",
 )
 
-THIRD_PARTY_APPS = ("sass_processor", "easy_thumbnails")
+THIRD_PARTY_APPS = (
+    "sass_processor",
+    "easy_thumbnails",
+    "ckeditor",
+    "ckeditor_uploader",
+)
 
 LOCAL_APPS = ("main",)
 
@@ -111,3 +116,7 @@ MEDIA_ROOT = os.path.join(ROOT_DIR, "media")
 THUMBNAIL_ALIASES = {
     "": {"preview": {"size": (25, 25), "crop": True},},
 }
+
+# CKEditor
+# https://github.com/django-ckeditor/django-ckeditor
+CKEDITOR_UPLOAD_PATH = "uploads/"

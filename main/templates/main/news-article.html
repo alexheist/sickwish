@@ -27,7 +27,11 @@ grid-template-columns: 100%;
 <section class="news-article">
     <h4 class="news-article__title">{{ article.title }}</h4>
     <p class="news-article__date">{{ article.published }}</p>
-    <p class="news-article__content">{{ article.content }}</p>
+    <div class="news-article__content">
+        {% autoescape off %}
+            {{ article.content }}
+        {% endautoescape %}
+    </div>
 </section>
 {% endblock content %}
 

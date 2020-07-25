@@ -1,6 +1,11 @@
 from django.db import models
+from django.utils.html import strip_tags
+
+from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.template.defaultfilters import truncatewords
 from django.utils import timezone
+import html
 
 from . import choices
 
@@ -26,7 +31,7 @@ class AboutImage(models.Model):
 
 
 class AboutText(models.Model):
-    content = models.TextField()
+    content = RichTextField()
     in_use = models.BooleanField(default=False)
 
     class Meta:
@@ -45,7 +50,7 @@ class AboutText(models.Model):
 
     @property
     def content_preview(self):
-        return f"{self.content[:150]} . . ."
+        return f"{strip_tags(html.unescape(self.content[:150]))} . . ."
 
 
 class AboutVideo(models.Model):
@@ -130,8 +135,9 @@ class Music(models.Model):
 
 
 class News(models.Model):
+    image = models.ImageField()
     title = models.CharField(max_length=255)
-    content = models.TextField()
+    content = RichTextUploadingField()
     published = models.DateField()
     slug = models.SlugField()
 
@@ -140,7 +146,7 @@ class News(models.Model):
 
     @property
     def preview(self):
-        return truncatewords(self.content, 50)[:-1]
+        return truncatewords(strip_tags(html.unescape(self.content)), 50)[:-1]
 
 
 class Press(models.Model):
