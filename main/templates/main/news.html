@@ -42,6 +42,9 @@ grid-template-columns: 100%;
 <section class="news-preview">
     {% for post in news %}
         <div class="news-preview__post">
+            <div class="news-preview__image">
+                <img src="/media/{{ post.image }}" />
+            </div>
             <h4 class="news-preview__title">{{ post.title }}</h4>
             <p class="news-preview__date">{{ post.published }}</p>
             <p class="news-preview__content">{{ post.preview }} . . .</p>

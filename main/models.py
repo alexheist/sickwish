@@ -1,11 +1,11 @@
-from django.db import models
-from django.utils.html import strip_tags
+import html
 
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.db import models
 from django.template.defaultfilters import truncatewords
 from django.utils import timezone
-import html
+from django.utils.html import strip_tags
 
 from . import choices
 

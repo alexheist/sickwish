@@ -30,6 +30,9 @@ grid-template-rows: 100vh 1fr 0.6fr 0.5fr;
     <h3 class="news-preview__header">News</h3>
     {% for post in news %}
         <div class="news-preview__post">
+            <div class="news-preview__image">
+                <img src="/media/{{ post.image }}" />
+            </div>
             <h4 class="news-preview__title">{{ post.title }}</h4>
             <p class="news-preview__date">{{ post.published }}</p>
             <p class="news-preview__content">{{ post.preview }} . . .</p>
