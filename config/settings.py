@@ -84,6 +84,16 @@ DATABASES = {
     }
 }
 
+# Caching
+# ===============================
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.db.DatabaseCache",
+        "LOCATION": "wwwdj_cache_table",
+        "TIMEOUT": None,
+    }
+}
+
 # Internationalization
 # ===============================
 

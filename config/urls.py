@@ -5,20 +5,22 @@ from django.contrib.sitemaps import GenericSitemap
 from django.contrib.sitemaps.views import sitemap
 from django.urls import include, path, reverse
 from django.utils import timezone
-from main import views
+from main import views, models
 
 from .sitemaps import StaticViewSitemap
 
 sitemaps = {
     "static": StaticViewSitemap,
-    # "blog": GenericSitemap(
-    #     {
-    #         "queryset": Article.objects.filter(published__lte=timezone.now().date()),
-    #         "date_field": "updated",
-    #     },
-    #     priority=0.9,
-    #     protocol="https",
-    # ),
+    "articles": GenericSitemap(
+        {
+            "queryset": models.News.objects.filter(
+                published__lte=timezone.now().date()
+            ),
+            "date_field": "published",
+        },
+        priority=0.9,
+        protocol="https",
+    ),
 }
 
 

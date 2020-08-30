@@ -3,8 +3,10 @@ import html
 from ckeditor.fields import RichTextField
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
+from django.core.cache import cache
 from django.template.defaultfilters import truncatewords
 from django.utils import timezone
+from django.urls import reverse
 from django.utils.html import strip_tags
 
 from . import choices
@@ -27,6 +29,7 @@ class AboutImage(models.Model):
                     temp.save()
             except AboutImage.DoesNotExist:
                 pass
+        cache.clear()
         super().save(*args, **kwargs)
 
 
@@ -46,6 +49,7 @@ class AboutText(models.Model):
                     temp.save()
             except AboutText.DoesNotExist:
                 pass
+        cache.clear()
         super().save(*args, **kwargs)
 
     @property
@@ -70,6 +74,7 @@ class AboutVideo(models.Model):
                     temp.save()
             except AboutVideo.DoesNotExist:
                 pass
+        cache.clear()
         super().save(*args, **kwargs)
 
 
@@ -87,6 +92,7 @@ class Banner(models.Model):
                     temp.save()
             except Banner.DoesNotExist:
                 pass
+        cache.clear()
         super().save(*args, **kwargs)
 
 
@@ -100,6 +106,10 @@ class Event(models.Model):
     age_restrictions = models.CharField(
         max_length=2, choices=choices.RESTRICTIONS, default="AA"
     )
+
+    def save(self, *args, **kwargs):
+        cache.clear()
+        super().save(*args, **kwargs)
 
     @property
     def location(self):
@@ -117,6 +127,10 @@ class Inquiry(models.Model):
     class Meta:
         verbose_name_plural = "Inquiries"
 
+    def save(self, *args, **kwargs):
+        cache.clear()
+        super().save(*args, **kwargs)
+
 
 class Media(models.Model):
     description = models.CharField(max_length=255)
@@ -125,6 +139,10 @@ class Media(models.Model):
     class Meta:
         verbose_name_plural = "Media Page Images"
 
+    def save(self, *args, **kwargs):
+        cache.clear()
+        super().save(*args, **kwargs)
+
 
 class Music(models.Model):
     title = models.CharField(max_length=255)
@@ -132,6 +150,10 @@ class Music(models.Model):
 
     class Meta:
         verbose_name_plural = "Embedded Albums"
+
+    def save(self, *args, **kwargs):
+        cache.clear()
+        super().save(*args, **kwargs)
 
 
 class News(models.Model):
@@ -144,9 +166,16 @@ class News(models.Model):
     class Meta:
         verbose_name_plural = "News Posts"
 
+    def save(self, *args, **kwargs):
+        cache.clear()
+        super().save(*args, **kwargs)
+
     @property
     def preview(self):
         return truncatewords(strip_tags(html.unescape(self.content)), 50)[:-1]
+
+    def get_absolute_url(self):
+        return reverse("article", kwargs={"slug": self.slug})
 
 
 class Press(models.Model):
@@ -157,3 +186,7 @@ class Press(models.Model):
 
     class Meta:
         verbose_name_plural = "Press"
+
+    def save(self, *args, **kwargs):
+        cache.clear()
+        super().save(*args, **kwargs)
